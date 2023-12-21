@@ -63,7 +63,7 @@ class ControleurVideos {
                 $data['subtitle'],
             );
         } else{
-            $resultat->message = "Impossible d'ajouter un produit. Des informations sont manquantes";
+            $resultat->message = "Impossible d'ajouter un vidéo. Des informations sont manquantes";
         }
         echo json_encode($resultat);
     }
