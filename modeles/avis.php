@@ -125,6 +125,11 @@ class modele_avis {
   public static function modifier($id, $id_video, $note, $commentaire) {
     $message = '';
 
+    if(!$id){
+      $message =  "L'identifiant (id) de l'avis est manquant dans l'url! ";
+      return $message;
+    }
+
     $mysqli = Db::connecter();
     
     if ($requete = $mysqli->prepare("UPDATE avis SET id_video=?, note=?, commentaire=? WHERE id=?")) {      
@@ -132,28 +137,28 @@ class modele_avis {
       $requete->bind_param("iisi", $id_video, $note, $commentaire, $id);
 
       if($requete->execute()) { 
-          $message = "Avis modifié";  // TODO trouver erreur il envoie ce message même si pas id dans l'url
+          $message = "Avis modifié"; //ok
       } else {
           $message =  "Une erreur est survenue lors de l'édition: " . $requete->error; 
       }
 
       $requete->close(); 
+      return $message;
 
     } else  {
-      $message = "Une erreur a été détectée dans la requête utilisée : " . $mysqli->error;   // TODO pas testé 
+      $message = "Une erreur a été détectée dans la requête utilisée : " . $mysqli->error;  
       return $message;
-        // echo "Une erreur a été détectée dans la requête utilisée : ";   
-        // echo $mysqli->error;
-        // echo "<br>";
-        // exit();
     }
-
-    return $message;
   }
 
-  // Supprime l'avis et non les avis d'un vidéo
+  // Supprimer l'avis et non les avis d'un vidéo
   public static function supprimer($id) {
     $message = '';
+
+    if(!$id){
+      $message =  "L'identifiant (id) de l'avis est manquant dans l'url! "; //ok
+      return $message;
+    }
 
     $mysqli = Db::connecter();
     
@@ -162,25 +167,19 @@ class modele_avis {
       $requete->bind_param("i", $id);
 
       if($requete->execute()) { 
-          $message = "Avis supprimé: " . $id; 
+          $message = "Avis supprimé: " . $id; //ok
       } else {
           $message =  "Une erreur est survenue lors de la suppression: " . $requete->error;  
       }
 
       $requete->close(); 
-
+      return $message;
     } else  {
-     
-       $message =  "Une erreur a été détectée dans la requête utilisée : " . $mysqli->error; 
-        // echo "Une erreur a été détectée dans la requête utilisée : ";
-        // echo $mysqli->error;
-        // echo "<br>";
-        exit();
+      $message =  "Une erreur a été détectée dans la requête utilisée : " . $mysqli->error; //ok
+      return $message;
+      exit(); // TODO ?? Pourquoi cet exit?
     }
-
-    return $message;
   }
-
 
 }
 

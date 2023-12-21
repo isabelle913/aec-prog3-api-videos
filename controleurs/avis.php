@@ -6,7 +6,6 @@ require_once __DIR__ . '../../modeles/avis.php';
 
 class ControleurAvis {
 
-    //ok
     function afficherTousJson(){
     //  $resultat = new stdClass();
         $erreur = new stdClass();
@@ -20,7 +19,7 @@ class ControleurAvis {
             echo json_encode($erreur);
         }
     }
-    //ok
+   
     function afficherUnAvisJson() {
         $erreur = new stdClass();
 
@@ -38,7 +37,7 @@ class ControleurAvis {
             echo json_encode($erreur);
         }
     }
-   //ok
+  
    function afficherTousAvisUnVideoJson() {
         $erreur = new stdClass();
 
@@ -56,7 +55,7 @@ class ControleurAvis {
             echo json_encode($erreur);
         }
     }
-    //ok
+   
     function ajouterUnAvisUrlJSON($data) {
         $resultat = new stdClass(); // TODO ?? pourquoi ici je doit créer l'objet et pas aux autres places?
         $erreur = new stdClass();
@@ -76,7 +75,7 @@ class ControleurAvis {
             echo json_encode($erreur);
         }
     }
-    //ok
+   
     function ajouterUnAvisJSON($data) {
         $resultat = new stdClass();
         $erreur = new stdClass();
@@ -117,13 +116,11 @@ class ControleurAvis {
         echo json_encode($resultat);
     }
 
-    function supprimerJSON($id){
+    function supprimerUnAvisJSON(){
         $resultat = new stdClass();
 
         $resultat->message = modele_avis::supprimer($_GET['id']);
         echo json_encode($resultat);
-
-        //TODO ?? si je supprime un vidéo inexistant ou déja supprimé il me dit vidéo supprimé, mais MySQL dit 0 ligne supprimé, contrairement si vraiment supprimé MySQL dit 1 ligne supprimé 
 
     }
 
