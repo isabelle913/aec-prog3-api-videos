@@ -65,7 +65,7 @@ class modele_avis {
     $message = new stdClass();
     $mysqli = Db::connecter();
 
-    if ($requete = $mysqli->prepare("SELECT * FROM avi WHERE id_video=?")){
+    if ($requete = $mysqli->prepare("SELECT * FROM avis WHERE id_video=?")){
     
       $requete->bind_param("i", $id_video);
       $requete->execute();
