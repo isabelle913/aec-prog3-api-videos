@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '../../include/config.php';
+// require_once __DIR__ . '../../include/config.php';
 
 class modele_avis {
   public $id; 
@@ -15,11 +16,10 @@ class modele_avis {
     $this->commentaire= $enregistrement['commentaire']; 
   }
 
-  //ok
-  public static function ObtenirTous() {
+  public static function ObtenirTous() { //ok
     $liste = [];
+    $message = new stdClass();
     $mysqli = Db::connecter();
-    $message = '';
 
     $resultatRequete = $mysqli->query("SELECT * FROM avis");
 
@@ -30,50 +30,45 @@ class modele_avis {
       return $liste;
 
     } else {
-       $message =  "Une erreur est survenue lors de la requête!";
+       $message->msg =  "Une erreur est survenue lors de la requête!";
+       $message->error = $mysqli->error;
        return $message;
     }
-   
   }
-  //ok
-  public static function ObtenirUn($id) {
+ 
+  public static function ObtenirUn($id) { //ok
     $mysqli = Db::connecter();
-    $message = '';
+    $message = new stdClass();
 
     if ($requete = $mysqli->prepare("SELECT * FROM avis WHERE id=?")){
     
       $requete->bind_param("i", $id);
-
       $requete->execute();
-
       $resultatRequete = $requete->get_result();
 
-      if($enregistrement = $resultatRequete->fetch_assoc()) { // TODO ?? pourquoi le fetch_assoc
-        $avis = new modele_avis($enregistrement);
-        return $avis;
+      if($enregistrement = $resultatRequete->fetch_assoc()) {
+        $message = new modele_avis($enregistrement);
       } else {
         $message = "Erreur: Aucun enregistrement trouvé.";
-        return $message;
       }
       $requete->close(); 
 
     } else {
-      $message = "Une erreur a été détectée dans la requête utilisée : " .  $mysqli->error;
-      return $message;
+      $message->msg = "Une erreur a été détectée dans la requête utilisée.";
+      $message->error = $mysqli->error;
     }
+    return $message;
   }
 
-  public static function ObtenirTousAvisUnVideo($id_video) {
+  public static function ObtenirTousAvisUnVideo($id_video) { //ok
     $liste = [];    
+    $message = new stdClass();
     $mysqli = Db::connecter();
-    $message = '';
 
-    if ($requete = $mysqli->prepare("SELECT * FROM avis WHERE id_video=?")){
+    if ($requete = $mysqli->prepare("SELECT * FROM avi WHERE id_video=?")){
     
       $requete->bind_param("i", $id_video);
-
       $requete->execute();
-
       $resultatRequete = $requete->get_result();
 
       if($resultatRequete) {
@@ -82,20 +77,19 @@ class modele_avis {
         }
         return $liste;
       } else {
-        $message =  "Une erreur est survenue lors de la requête!"; // TODO ?? comment arriver à cette erreur
-        return $message;
+        $message =  "Une erreur est survenue lors de la requête!";
       }
 
-      $requete->close(); // TODO est-ce que ma requête sera close puisque retour avant?
+      $requete->close(); // TODO ?? est-ce que ma requête sera close puisque retour avant?
     } else {
-      $message = "Une erreur a été détectée dans la requête utilisée : " . $mysqli->error;   
-      return $message;
+      $message->msg = "Une erreur a été détectée dans la requête utilisée.";
+      $message->error = $mysqli->error;   
     }
+    return $message;
   }
 
   public static function ajouter( $id_video, $note, $commentaire) {
-    $message = '';
-
+    $message = new stdClass();
     $mysqli = Db::connecter();
     
     if ($requete = $mysqli->prepare("INSERT INTO avis(id_video, note, commentaire) VALUES(?, ?, ?)")) {  
@@ -111,19 +105,15 @@ class modele_avis {
       $requete->close(); 
 
     } else  {
-      $message = "Une erreur a été détectée dans la requête utilisée : " . $mysqli->error;   // TODO pas testé 
-      return $message;
-        // echo "Une erreur a été détectée dans la requête utilisée : ";   
-        // echo $mysqli->error;
-        // echo "<br>";
-        // exit();
+      $message->msg = "Une erreur a été détectée dans la requête utilisée.";
+      $message->error = $mysqli->error;
     }
 
     return $message;
   }
   
-  public static function modifier($id, $id_video, $note, $commentaire) {
-    $message = '';
+  public static function modifier($id, $id_video, $note, $commentaire) { //ok
+    $message = new stdClass();
 
     if(!$id){
       $message =  "L'identifiant (id) de l'avis est manquant dans l'url! ";
@@ -137,23 +127,21 @@ class modele_avis {
       $requete->bind_param("iisi", $id_video, $note, $commentaire, $id);
 
       if($requete->execute()) { 
-          $message = "Avis modifié"; //ok
+          $message = "Avis modifié";
       } else {
-          $message =  "Une erreur est survenue lors de l'édition: " . $requete->error; 
+          $message->msg =  "Une erreur est survenue lors de l'édition"; 
+          $message->error =  $mysqli->error; 
       }
-
       $requete->close(); 
-      return $message;
-
     } else  {
-      $message = "Une erreur a été détectée dans la requête utilisée : " . $mysqli->error;  
-      return $message;
+      $message->msg =  "Une erreur a été détectée dans la requête utilisée." ;
+      $message->error =  $mysqli->error; 
     }
+    return $message;
   }
 
-  // Supprimer l'avis et non les avis d'un vidéo
   public static function supprimer($id) {
-    $message = '';
+    $message = new stdClass();
 
     if(!$id){
       $message =  "L'identifiant (id) de l'avis est manquant dans l'url! "; //ok
@@ -169,16 +157,19 @@ class modele_avis {
       if($requete->execute()) { 
           $message = "Avis supprimé: " . $id; //ok
       } else {
-          $message =  "Une erreur est survenue lors de la suppression: " . $requete->error;  
+          $message->msg =  "Une erreur est survenue lors de la suppression.";  
+          $message->error =  $mysqli->error; 
       }
 
       $requete->close(); 
-      return $message;
+      
     } else  {
-      $message =  "Une erreur a été détectée dans la requête utilisée : " . $mysqli->error; //ok
-      return $message;
-      exit(); // TODO ?? Pourquoi cet exit?
+      $message->msg =  "Une erreur a été détectée dans la requête utilisée."; 
+      $message->error =  $mysqli->error; 
+      
+      // exit(); // TODO ?? Pourquoi cet exit?
     }
+    return $message;
   }
 
 }

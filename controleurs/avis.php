@@ -2,12 +2,12 @@
 
 require_once __DIR__ . '../../modeles/avis.php';
 
-// TODO ?? doit-on mettre controleur et modele pour avis dans dossier séparé?
+// TODO  mettre controleur et modele pour avis dans dossier séparé?
 
 class ControleurAvis {
 
-    function afficherTousJson(){
-    //  $resultat = new stdClass();
+    function afficherTousJson(){ //ok
+        $resultat = new stdClass();
         $erreur = new stdClass();
 
         $resultat = modele_avis::ObtenirTous();
@@ -15,52 +15,42 @@ class ControleurAvis {
         if($resultat){
             echo json_encode($resultat);
         } else {
-            $erreur->message = "Aucun avis trouvé"; // pour tester il faudrait que je vide ma bd!
-            echo json_encode($erreur);
+            $resultat = "Aucun avis trouvé";
+            echo json_encode($resultat);
         }
     }
    
-    function afficherUnAvisJson() {
-        $erreur = new stdClass();
+    function afficherUnAvisJson($id) { //ok
+        $resultat = new stdClass();
 
-        if(isset($_GET['id'])){
-            $resultat = modele_avis::ObtenirUn($_GET['id']);
+        $resultat = modele_avis::ObtenirUn($id);
 
-            if($resultat){
-                echo json_encode($resultat);
-            } else {
-                $erreur->message = "Aucun avis trouvé"; 
-                echo json_encode($erreur);
-            }
+        if($resultat){
+            echo json_encode($resultat);
         } else {
-            $erreur->message = "L'identifiant (id) de l'avis à afficher est manquant dans l'url"; // TODO ?? pourquoi j'obtiens pas
-            echo json_encode($erreur);
+            $resultat = "Aucun avis trouvé"; 
+            echo json_encode($resultat);
         }
+
     }
   
-   function afficherTousAvisUnVideoJson() {
-        $erreur = new stdClass();
+   function afficherTousAvisUnVideoJson($id_video) { //ok
+        $resultat = new stdClass();
+    
+        $resultat = modele_avis::ObtenirTousAvisUnVideo($id_video);
 
-        if(isset($_GET['video'])){  // id_video
-            $resultat = modele_avis::ObtenirTousAvisUnVideo($_GET['video']);
-
-            if($resultat){
-                echo json_encode($resultat);
-            } else {
-                $erreur->message = "Aucun avis trouvé"; 
-                echo json_encode($erreur);
-            }
+        if($resultat){
+            echo json_encode($resultat);
         } else {
-            $erreur->message = "L'identifiant (id_video) du vidéo des avis à afficher est manquant dans l'url";
-            echo json_encode($erreur);
+            $resultat = "Aucun avis trouvé!!!"; //ok
+            echo json_encode($resultat);
         }
     }
    
-    function ajouterUnAvisUrlJSON($data) {
-        $resultat = new stdClass(); // TODO ?? pourquoi ici je doit créer l'objet et pas aux autres places?
-        $erreur = new stdClass();
+    function ajouterUnAvisUrlJSON($data) { //ok
+        $resultat = new stdClass(); 
 
-        if(isset($_GET["video"]) && // id_video
+        if(isset($_GET["video"]) &&
             isset($data['note']) &&  
             isset($data['commentaire'])
         ) {
@@ -69,16 +59,14 @@ class ControleurAvis {
                 $data['note'], 
                 $data['commentaire'] 
             );
-             echo json_encode($resultat);
-        } else{
-            $erreur->message = "Impossible d'ajouter un avis. Des informations sont manquantes"; //ok
-            echo json_encode($erreur);
+        } else {
+            $resultat->message = "Impossible d'ajouter un avis. Des informations sont manquantes"; //ok
         }
+        echo json_encode($resultat);
     }
    
-    function ajouterUnAvisJSON($data) {
+    function ajouterUnAvisJSON($data) { //ok
         $resultat = new stdClass();
-        $erreur = new stdClass();
 
         if(isset($data["id_video"]) &&
             isset($data['note']) &&  
@@ -89,14 +77,13 @@ class ControleurAvis {
                 $data['note'], 
                 $data['commentaire'] 
             );
-             echo json_encode($resultat);
         } else{
-            $erreur->message = "Impossible d'ajouter un avis. Des informations sont manquantes"; //ok
-            echo json_encode($erreur);
+            $resultat->message = "Impossible d'ajouter un avis. Des informations sont manquantes"; //ok
         }
+        echo json_encode($resultat);
     }
 
-    function modifierUnAvisJSON($data) {
+    function modifierUnAvisJSON($data) { //ok
         $resultat = new stdClass();
 
         if(isset($_GET["id"]) &&
@@ -116,16 +103,12 @@ class ControleurAvis {
         echo json_encode($resultat);
     }
 
-    function supprimerUnAvisJSON(){
+    function supprimerUnAvisJSON($id){ //ok
         $resultat = new stdClass();
 
-        $resultat->message = modele_avis::supprimer($_GET['id']);
+        $resultat->message = modele_avis::supprimer($id);
         echo json_encode($resultat);
-
     }
-
-// TODO standardiser les messages vs erreur (new stdClass)
 }
-
 
 ?>
