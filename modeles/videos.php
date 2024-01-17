@@ -82,7 +82,7 @@ class modele_videos {
     if($requete->execute()) { 
         $message = "Vidéo ajouté"; 
     } else {
-        $message-> = "Une erreur est survenue lors de l'ajout: "; 
+        $message->msg = "Une erreur est survenue lors de l'ajout: "; 
         $message->error =  $mysqli->error; 
     }
 
@@ -132,12 +132,12 @@ class modele_videos {
     $message = new stdClass();
     $mysqli = Db::connecter();
     
-    if ($requete = $mysqli->prepare("DELETE FROM video WHERE id=?")) {      
+    if ($requete = $mysqli->prepare("DELETE FROM videos WHERE id=?")) {      
 
       $requete->bind_param("i", $id);
 
       if($requete->execute()) { 
-          $message->msg = "Vidéo supprimé: " . $id; 
+          $message = "Vidéo supprimé: " . $id; 
       } else {
           $message->msg =  "Une erreur est survenue lors de la suppression: ";  
           $message->error = $requete->error;  
