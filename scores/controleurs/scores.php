@@ -2,8 +2,6 @@
 
 require_once __DIR__ . '../../modeles/scores.php';
 
-
-
 class ControleurScores {
 
 

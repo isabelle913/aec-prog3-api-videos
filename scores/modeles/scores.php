@@ -1,5 +1,5 @@
 <?php
-//  TODO ?? doit-on fermer nos connections?
+
 require_once __DIR__ . '../../../include/config.php';
 
 class modele_scores {

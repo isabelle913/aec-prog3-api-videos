@@ -92,8 +92,8 @@ class modele_videos {
       $message->msg =  "Une erreur a été détectée dans la requête utilisée." ;
       $message->error =  $mysqli->error; 
     
+       // TODO
       // return $message;
-      // TODO ??
       // exit();
     }
 
@@ -120,8 +120,8 @@ class modele_videos {
       $message->msg =  "Une erreur a été détectée dans la requête utilisée." ;
       $message->error =  $mysqli->error; 
 
+      // TODO
       // return $message;
-      // TODO ??
       // exit();
     }
 
@@ -150,7 +150,7 @@ class modele_videos {
       $message->error =  $mysqli->error; 
       // return $message;
  
-      // TODO ??
+      // TODO ?? vérifier si doit faire exit() ou $requete.close() APRES le return j'imagine
       // exit();
     }
 
