@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '../../modeles/videos.php';
 
-// TODO Catégorie
+// TODO Catégorie selon utilisation dans Angular
 // TODO Utilisateur
 
 class ControleurVideos {
