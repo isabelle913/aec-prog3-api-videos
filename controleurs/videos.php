@@ -2,7 +2,6 @@
 
 require_once __DIR__ . '../../modeles/videos.php';
 
-// TODO Faire score
 // TODO Catégorie
 // TODO Utilisateur
 
