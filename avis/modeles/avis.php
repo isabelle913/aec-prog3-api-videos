@@ -1,7 +1,6 @@
 <?php
 
-require_once __DIR__ . '../../include/config.php';
-// require_once __DIR__ . '../../include/config.php';
+require_once __DIR__ . '../../../include/config.php';
 
 class modele_avis {
   public $id; 
@@ -80,7 +79,7 @@ class modele_avis {
         $message =  "Une erreur est survenue lors de la requête!";
       }
 
-      $requete->close(); // TODO ?? est-ce que ma requête sera close puisque retour avant?
+      $requete->close(); // TODO est-ce que ma requête sera close puisque retour avant?
     } else {
       $message->msg = "Une erreur a été détectée dans la requête utilisée.";
       $message->error = $mysqli->error;   
@@ -167,7 +166,7 @@ class modele_avis {
       $message->msg =  "Une erreur a été détectée dans la requête utilisée."; 
       $message->error =  $mysqli->error; 
       
-      // exit(); // TODO ?? Pourquoi cet exit?
+      // exit(); // TODO Pourquoi cet exit?
     }
     return $message;
   }

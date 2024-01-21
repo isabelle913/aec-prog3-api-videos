@@ -2,8 +2,6 @@
 
 require_once __DIR__ . '../../modeles/avis.php';
 
-// TODO  mettre controleur et modele pour avis dans dossier séparé?
-
 class ControleurAvis {
 
     function afficherTousJson(){ //ok

@@ -1,7 +1,9 @@
 <?php
   header('Content-Type: application/json;');
   header('Access-Control-Allow-Origin: *'); 
-  require_once'../controleurs/avis.php';
+  // require_once'../controleurs/avis.php';
+  require_once'./controleurs/avis.php';
+  // require_once'../../api-videos/avis/controleurs/avis.php';
   $ControleurAvis = new ControleurAvis;
 
   switch($_SERVER['REQUEST_METHOD']) {
