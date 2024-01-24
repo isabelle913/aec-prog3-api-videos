@@ -34,10 +34,12 @@ class modele_videos {
       foreach ($resultatRequete as $enregistrement) {
         $liste[] = new modele_videos($enregistrement);
       }
+      $mysqli->close();
       return $liste;
     } else {
        $message->msg =  "Une erreur est survenue lors de la requête!";
        $message->error = $mysqli->error;
+       $mysqli->close();
        return $message;
     }
    
@@ -59,15 +61,13 @@ class modele_videos {
         http_response_code(404);
         $message->msg = "Erreur: Aucun enregistrement trouvé.";
       }
-
-      $requete->close();
-
+  
     } else {
       http_response_code(500); 
       $message->msg =  "Une erreur a été détectée dans la requête utilisée : ";   
       $message->error = $mysqli->error;
     }
-
+    $mysqli->close();
     return $message;
   }
 
@@ -77,26 +77,19 @@ class modele_videos {
     
     if ($requete = $mysqli->prepare("INSERT INTO videos(code, date_publication, description, duree, media, nom, subtitle) VALUES(?, ?, ?, ?, ?, ?, ?)")) {      
 
-    $requete->bind_param("sssisss", $code, $date_publication, $description, $duree, $media, $nom, $subtitle);
+      $requete->bind_param("sssisss", $code, $date_publication, $description, $duree, $media, $nom, $subtitle);
 
-    if($requete->execute()) { 
-        $message = "Vidéo ajouté"; 
-    } else {
-        $message->msg = "Une erreur est survenue lors de l'ajout: "; 
-        $message->error =  $mysqli->error; 
-    }
-
-    $requete->close(); 
-
+      if($requete->execute()) { 
+          $message = "Vidéo ajouté"; 
+      } else {
+          $message->msg = "Une erreur est survenue lors de l'ajout: "; 
+          $message->error =  $mysqli->error; 
+      }
     } else  {
       $message->msg =  "Une erreur a été détectée dans la requête utilisée." ;
       $message->error =  $mysqli->error; 
-    
-       // TODO
-      // return $message;
-      // exit();
     }
-
+    $mysqli->close();
     return $message;
   }
   
@@ -113,18 +106,11 @@ class modele_videos {
       } else {
           $message =  "Une erreur est survenue lors de l'édition: " . $requete->error; 
       }
-
-      $requete->close(); 
-
     } else  {
       $message->msg =  "Une erreur a été détectée dans la requête utilisée." ;
       $message->error =  $mysqli->error; 
-
-      // TODO
-      // return $message;
-      // exit();
     }
-
+    $mysqli->close();
     return $message;
   }
 
@@ -142,18 +128,11 @@ class modele_videos {
           $message->msg =  "Une erreur est survenue lors de la suppression: ";  
           $message->error = $requete->error;  
       }
-
-      $requete->close(); 
-
     } else  {
       $message->msg =  "Une erreur a été détectée dans la requête utilisée." ;
       $message->error =  $mysqli->error; 
-      // return $message;
- 
-      // TODO ?? vérifier si doit faire exit() ou $requete.close() APRES le return j'imagine
-      // exit();
     }
-
+    $mysqli->close();
     return $message;
   }
 

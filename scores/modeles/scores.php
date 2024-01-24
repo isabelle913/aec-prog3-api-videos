@@ -17,19 +17,16 @@ class modele_scores {
       } else {
           $message =  "Une erreur est survenue lors de l'édition: " . $requete->error; 
       }
-
-      $requete->close(); 
-
     } else  {
       $message->msg =  "Une erreur a été détectée dans la requête utilisée." ;
       $message->error =  $mysqli->error; 
-
     }
+    $mysqli->close();
     return $message;
 
   }
 
-    public static function decreaseScore($id_video) {
+  public static function decreaseScore($id_video) {
     $message = new stdClass();
     $mysqli = Db::connecter();
     
@@ -42,18 +39,13 @@ class modele_scores {
       } else {
           $message =  "Une erreur est survenue lors de l'édition: " . $requete->error; 
       }
-
-      $requete->close(); 
-
     } else  {
       $message->msg =  "Une erreur a été détectée dans la requête utilisée." ;
       $message->error =  $mysqli->error; 
-
     }
+    $mysqli->close();
     return $message;
-
   }
-
 }
 
 ?>

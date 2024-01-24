@@ -15,7 +15,7 @@ class modele_avis {
     $this->commentaire= $enregistrement['commentaire']; 
   }
 
-  public static function ObtenirTous() { //ok
+  public static function ObtenirTous() {
     $liste = [];
     $message = new stdClass();
     $mysqli = Db::connecter();
@@ -26,16 +26,18 @@ class modele_avis {
       foreach ($resultatRequete as $enregistrement) {
         $liste[] = new modele_avis($enregistrement);
       }
+      $mysqli->close();
       return $liste;
 
     } else {
        $message->msg =  "Une erreur est survenue lors de la requête!";
        $message->error = $mysqli->error;
+       $mysqli->close();
        return $message;
     }
   }
  
-  public static function ObtenirUn($id) { //ok
+  public static function ObtenirUn($id) {
     $mysqli = Db::connecter();
     $message = new stdClass();
 
@@ -50,16 +52,15 @@ class modele_avis {
       } else {
         $message = "Erreur: Aucun enregistrement trouvé.";
       }
-      $requete->close(); 
-
     } else {
       $message->msg = "Une erreur a été détectée dans la requête utilisée.";
       $message->error = $mysqli->error;
     }
+    $mysqli->close();
     return $message;
   }
 
-  public static function ObtenirTousAvisUnVideo($id_video) { //ok
+  public static function ObtenirTousAvisUnVideo($id_video) {
     $liste = [];    
     $message = new stdClass();
     $mysqli = Db::connecter();
@@ -78,12 +79,11 @@ class modele_avis {
       } else {
         $message =  "Une erreur est survenue lors de la requête!";
       }
-
-      $requete->close(); // TODO est-ce que ma requête sera close puisque retour avant?
     } else {
       $message->msg = "Une erreur a été détectée dans la requête utilisée.";
       $message->error = $mysqli->error;   
     }
+    $mysqli->close();
     return $message;
   }
 
@@ -100,18 +100,15 @@ class modele_avis {
       } else {
           $message =  "Une erreur est survenue lors de l'ajout: " . $requete->error; 
       }
-
-      $requete->close(); 
-
     } else  {
       $message->msg = "Une erreur a été détectée dans la requête utilisée.";
       $message->error = $mysqli->error;
     }
-
+    $mysqli->close();
     return $message;
   }
   
-  public static function modifier($id, $id_video, $note, $commentaire) { //ok
+  public static function modifier($id, $id_video, $note, $commentaire) {
     $message = new stdClass();
 
     if(!$id){
@@ -131,11 +128,11 @@ class modele_avis {
           $message->msg =  "Une erreur est survenue lors de l'édition"; 
           $message->error =  $mysqli->error; 
       }
-      $requete->close(); 
     } else  {
       $message->msg =  "Une erreur a été détectée dans la requête utilisée." ;
       $message->error =  $mysqli->error; 
     }
+    $mysqli->close();
     return $message;
   }
 
@@ -143,7 +140,7 @@ class modele_avis {
     $message = new stdClass();
 
     if(!$id){
-      $message =  "L'identifiant (id) de l'avis est manquant dans l'url! "; //ok
+      $message =  "L'identifiant (id) de l'avis est manquant dans l'url! ";
       return $message;
     }
 
@@ -154,24 +151,19 @@ class modele_avis {
       $requete->bind_param("i", $id);
 
       if($requete->execute()) { 
-          $message = "Avis supprimé: " . $id; //ok
+          $message = "Avis supprimé: " . $id;
       } else {
           $message->msg =  "Une erreur est survenue lors de la suppression.";  
           $message->error =  $mysqli->error; 
       }
-
-      $requete->close(); 
-      
     } else  {
       $message->msg =  "Une erreur a été détectée dans la requête utilisée."; 
       $message->error =  $mysqli->error; 
-      
-      // exit(); // TODO Pourquoi cet exit?
     }
+    $mysqli->close();
     return $message;
   }
 
 }
-
 
 ?>
