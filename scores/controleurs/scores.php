@@ -13,7 +13,7 @@ class ControleurScores {
         if($resultat){
             echo json_encode($resultat);
         } else {
-            $resultat->message = "Aucun vidéo trouvé";
+            $resultat->message = "Aucune vidéo trouvée";
             echo json_encode($resultat);
         }
     }
@@ -26,7 +26,7 @@ class ControleurScores {
         if($resultat){
             echo json_encode($resultat);
         } else {
-            $resultat->message = "Aucun vidéo trouvé";
+            $resultat->message = "Aucune vidéo trouvée";
             echo json_encode($resultat);
         }
     }
@@ -39,7 +39,7 @@ class ControleurScores {
         if($resultat){
             echo json_encode($resultat);
         } else {
-            $resultat->message = "Aucun vidéo trouvé";
+            $resultat->message = "Aucune vidéo trouvée";
             echo json_encode($resultat);
         }
     }

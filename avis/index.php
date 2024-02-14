@@ -9,7 +9,7 @@
       if (isset($_GET['id'])) { 
         $ControleurAvis->afficherUnAvisJson($_GET['id']); // Obtenir juste un avis
       } else if(isset($_GET['video'])){
-        $ControleurAvis->afficherTousAvisUnVideoJson($_GET['video']);// Obtenir tous les avis d'un vidéo
+        $ControleurAvis->afficherTousAvisUnVideoJson($_GET['video']);// Obtenir tous les avis d'une vidéo
       } else {
         $ControleurAvis->afficherTousJson(); // Affiche tous les avis de tous les vidéos
       }

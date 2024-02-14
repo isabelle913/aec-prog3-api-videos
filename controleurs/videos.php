@@ -15,7 +15,7 @@ class ControleurVideos {
         if($resultat){
             echo json_encode($resultat);
         } else {
-            $resultat->message = "Aucun vidéo trouvé"; 
+            $resultat->message = "Aucune vidéo trouvée"; 
             echo json_encode($resultat);
         }
     }
@@ -28,7 +28,7 @@ class ControleurVideos {
         if($resultat){
             echo json_encode($resultat);
         } else {
-            $resultat->message = "Aucun vidéo trouvé";
+            $resultat->message = "Aucune vidéo trouvée";
             echo json_encode($resultat);
         }
     }
@@ -54,7 +54,7 @@ class ControleurVideos {
                 $data['subtitle'],
             );
         } else{
-            $resultat->message = "Impossible d'ajouter un vidéo. Des informations sont manquantes!!!";
+            $resultat->message = "Impossible d'ajouter une vidéo. Des informations sont manquantes!!!";
         }
         echo json_encode($resultat);
     }

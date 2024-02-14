@@ -80,7 +80,7 @@ class modele_videos {
       $requete->bind_param("sssisss", $code, $date_publication, $description, $duree, $media, $nom, $subtitle);
 
       if($requete->execute()) { 
-          $message = "Vidéo ajouté"; 
+          $message = "Vidéo ajoutée"; 
       } else {
           $message->msg = "Une erreur est survenue lors de l'ajout: "; 
           $message->error =  $mysqli->error; 
@@ -102,7 +102,7 @@ class modele_videos {
       $requete->bind_param("sssisssi", $code, $date_publication, $description, $duree, $media, $nom, $subtitle, $id);
 
       if($requete->execute()) { 
-          $message = "Vidéo modifié"; 
+          $message = "Vidéo modifiée"; 
       } else {
           $message =  "Une erreur est survenue lors de l'édition: " . $requete->error; 
       }
@@ -123,7 +123,7 @@ class modele_videos {
       $requete->bind_param("i", $id);
 
       if($requete->execute()) { 
-          $message = "Vidéo supprimé: " . $id; 
+          $message = "Vidéo supprimée: " . $id; 
       } else {
           $message->msg =  "Une erreur est survenue lors de la suppression: ";  
           $message->error = $requete->error;  
