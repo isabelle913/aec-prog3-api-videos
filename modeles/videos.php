@@ -11,16 +11,22 @@ class modele_videos {
   public $media; 
   public $nom; 
   public $subtitle; 
+  public $nb_vues;
+  public $score;
+  public $categories;
 
   public function __construct($enregistrement){
     $this->id = $enregistrement['id']; 
     $this->code = $enregistrement['code']; 
     $this->date_publication = $enregistrement['date_publication']; 
-    $this->description= $enregistrement['description']; 
-    $this->duree= $enregistrement['duree']; 
-    $this->media= $enregistrement['media']; 
-    $this->nom= $enregistrement['nom']; 
-    $this->subtitle= $enregistrement['subtitle'];  
+    $this->description = $enregistrement['description']; 
+    $this->duree = floatval($enregistrement['duree']); 
+    $this->media = $enregistrement['media']; 
+    $this->nom = $enregistrement['nom']; 
+    $this->subtitle = $enregistrement['subtitle'];  
+    $this->nb_vues = intval($enregistrement['nb_vues']);  
+    $this->score = intval($enregistrement['score']);  
+    $this->categories = explode(';', $enregistrement['categories']);
   }
 
   public static function ObtenirTous() {
@@ -71,13 +77,14 @@ class modele_videos {
     return $message;
   }
 
-  public static function ajouter( $code, $date_publication, $description, $duree, $media, $nom, $subtitle) {
+  public static function ajouter( $code, $date_publication, $description, $duree, $media, $nom, $subtitle, $categories) {
     $message = new stdClass();
     $mysqli = Db::connecter();
     
-    if ($requete = $mysqli->prepare("INSERT INTO videos(code, date_publication, description, duree, media, nom, subtitle) VALUES(?, ?, ?, ?, ?, ?, ?)")) {      
+    if ($requete = $mysqli->prepare("INSERT INTO videos(code, date_publication, description, duree, media, nom, subtitle, categories) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")) {      
+      $categories_str = implode(';', $categories);
 
-      $requete->bind_param("sssisss", $code, $date_publication, $description, $duree, $media, $nom, $subtitle);
+      $requete->bind_param("sssissss", $code, $date_publication, $description, $duree, $media, $nom, $subtitle, $categories_str);
 
       if($requete->execute()) { 
           $message = "Vidéo ajoutée"; 
@@ -93,13 +100,14 @@ class modele_videos {
     return $message;
   }
   
-  public static function modifier($id, $code, $date_publication, $description, $duree, $media, $nom, $subtitle) {
+  public static function modifier($id, $code, $date_publication, $description, $duree, $media, $nom, $subtitle, $categories) {
     $message = new stdClass();
     $mysqli = Db::connecter();
     
-    if ($requete = $mysqli->prepare("UPDATE videos SET code=?, date_publication=?, description=?, duree=?, media=?, nom=?, subtitle=? WHERE id=?")) {      
+    if ($requete = $mysqli->prepare("UPDATE videos SET code=?, date_publication=?, description=?, duree=?, media=?, nom=?, subtitle=?, categories=? WHERE id=?")) {   
+       $categories_str = implode(';', $categories);   
 
-      $requete->bind_param("sssisssi", $code, $date_publication, $description, $duree, $media, $nom, $subtitle, $id);
+      $requete->bind_param("sssissssi", $code, $date_publication, $description, $duree, $media, $nom, $subtitle, $categories_str, $id  );
 
       if($requete->execute()) { 
           $message = "Vidéo modifiée"; 

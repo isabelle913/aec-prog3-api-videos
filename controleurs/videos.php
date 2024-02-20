@@ -42,7 +42,8 @@ class ControleurVideos {
             isset($data['duree']) && 
             isset($data['media'])&& 
             isset($data['nom'])&& 
-            isset($data['subtitle'])
+            isset($data['subtitle'])&&
+            isset($data['categories'])
         ) {
             $resultat->message= modele_videos::ajouter(
                 $data['code'], 
@@ -52,6 +53,7 @@ class ControleurVideos {
                 $data['media'],
                 $data['nom'],
                 $data['subtitle'],
+                $data['categories'],
             );
         } else{
             $resultat->message = "Impossible d'ajouter une vidéo. Des informations sont manquantes!!!";
@@ -69,7 +71,8 @@ class ControleurVideos {
             isset($data['duree']) && 
             isset($data['media'])&& 
             isset($data['nom'])&& 
-            isset($data['subtitle'])
+            isset($data['subtitle'])&&
+            isset($data['categories'])
         ) {
             $resultat->message= modele_videos::modifier(
                 $_GET["id"],
@@ -80,6 +83,7 @@ class ControleurVideos {
                 $data['media'],
                 $data['nom'],
                 $data['subtitle'],
+                $data['categories'],
             );
         } else{
             $resultat->message = "Impossible de modifier ce vidéo. Des informations sont manquantes!!!";
