@@ -4,6 +4,18 @@ require_once __DIR__ . '../../modeles/scores.php';
 
 class ControleurScores {
 
+    function afficherScore($id_video){
+        $resultat = new stdClass();
+          
+        $resultat = modele_scores::obtenirScore($id_video);
+
+        if($resultat){
+            echo json_encode($resultat);
+        } else {
+            $resultat->message = "Aucun score trouvé";
+            echo json_encode($resultat);
+        }
+    }
 
     function increaseScore($id_video) {
         $resultat = new stdClass();
@@ -13,7 +25,7 @@ class ControleurScores {
         if($resultat){
             echo json_encode($resultat);
         } else {
-            $resultat->message = "Aucune vidéo trouvée";
+            $resultat->message = "Aucun score trouvé";
             echo json_encode($resultat);
         }
     }
@@ -26,7 +38,7 @@ class ControleurScores {
         if($resultat){
             echo json_encode($resultat);
         } else {
-            $resultat->message = "Aucune vidéo trouvée";
+             $resultat->message = "Aucun score trouvé";
             echo json_encode($resultat);
         }
     }
@@ -39,7 +51,7 @@ class ControleurScores {
         if($resultat){
             echo json_encode($resultat);
         } else {
-            $resultat->message = "Aucune vidéo trouvée";
+            $resultat->message = "Aucun score trouvé";
             echo json_encode($resultat);
         }
     }
